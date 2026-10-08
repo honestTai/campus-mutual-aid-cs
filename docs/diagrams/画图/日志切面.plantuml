@@ -1,0 +1,27 @@
+@startuml
+
+actor Frontend as FE
+participant "AopSystemLog" as AOP
+participant "LogMapper" as Mapper
+
+FE -> AOP: 发起操作请求
+activate AOP
+
+AOP -> AOP: 记录操作开始信息
+AOP -> Mapper: 插入操作开始日志
+activate Mapper
+
+alt 操作异常
+    AOP -> AOP: 记录异常信息
+    AOP -> Mapper: 插入异常日志
+    deactivate AOP
+else 操作正常返回
+    AOP -> AOP: 记录操作成功信息
+    AOP -> Mapper: 插入成功日志
+    deactivate AOP
+end
+
+AOP --> FE: 返回操作结果
+deactivate Mapper
+deactivate AOP
+@enduml

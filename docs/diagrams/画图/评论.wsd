@@ -1,0 +1,22 @@
+@startuml
+actor Frontend as FE
+participant "CommentController" as Controller
+participant "CommentService" as Service
+
+FE -> Controller: 发起评论请求
+activate Controller
+
+Controller -> Controller: 检查用户登录状态
+Controller -> Controller: 记录评论日志
+Controller -> Service: 根据评论ID获取原评论信息
+activate Service
+
+Service --> Controller: 返回原评论信息
+Controller -> Service: 更新原评论的回复时间和回复内容
+Service --> Controller: 返回更新结果
+Controller -> Service: 调用saveOrUpdate方法保存或更新评论记录
+Service --> Controller: 返回保存或更新结果
+Controller --> FE: 返回评论结果
+deactivate Service
+deactivate Controller
+@enduml

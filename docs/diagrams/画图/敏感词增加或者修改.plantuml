@@ -1,0 +1,17 @@
+@startuml
+actor Frontend as FE
+participant "SensitiveController" as Controller
+participant "SensitiveMapper" as Mapper
+
+FE -> Controller: 发起添加或修改敏感词信息请求
+activate Controller
+
+Controller -> Controller: 记录后台使用日志
+Controller -> Controller: 记录添加或修改敏感词信息操作日志
+Controller -> Mapper: 判断是添加还是修改
+activate Mapper
+
+Mapper --> Controller: 执行添加或修改敏感词信息操作
+deactivate Mapper
+deactivate Controller
+@enduml

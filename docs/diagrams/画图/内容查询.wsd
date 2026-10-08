@@ -1,0 +1,19 @@
+@startuml
+actor Frontend as FE
+participant "ConfessController" as Controller
+participant "ConfessService" as Service
+
+FE -> Controller: 发起获取发布内容列表请求
+activate Controller
+
+Controller -> Controller: 检查用户登录状态
+Controller -> Controller: 检查登录用户是否为后台用户
+Controller -> Controller: 记录获取发布内容操作日志
+Controller -> Service: 构建查询条件
+activate Service
+
+Service --> Controller: 返回符合条件的发布内容列表
+Controller --> FE: 返回发布内容分页结果
+deactivate Service
+deactivate Controller
+@enduml

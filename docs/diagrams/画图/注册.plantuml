@@ -1,0 +1,18 @@
+@startuml
+participant Frontend as FE
+participant UserController
+participant DataVerify
+participant UserService
+
+FE -> UserController: 发起用户注册请求
+UserController -> DataVerify: 调用verify方法验证用户数据
+DataVerify -> UserService: 查询账号是否已存在
+UserService --> DataVerify: 返回查询结果
+DataVerify --> UserController: 处理验证结果
+UserController --> FE: 返回验证结果
+
+FE -> UserController: 发起用户注册请求
+UserController -> UserService: 保存用户信息
+UserService --> UserController: 返回保存结果
+UserController --> FE: 返回注册结果
+@enduml

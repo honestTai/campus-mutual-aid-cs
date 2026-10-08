@@ -1,0 +1,10 @@
+@startuml
+participant Frontend as FE
+participant UserController
+participant UserService
+
+FE -> UserController: 发起用户登录请求
+UserController -> UserService: 调用login方法进行用户登录
+UserService --> UserController: 返回登录结果(UserLoginDto)
+UserController --> FE: 返回登录结果(UserLoginDto)
+@enduml

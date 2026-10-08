@@ -1,0 +1,26 @@
+@startuml
+actor Frontend as FE
+participant "ConfessController" as Controller
+participant "ConfessService" as Service
+
+FE -> Controller: 发起发布内容请求
+activate Controller
+
+Controller -> Controller: 检查用户登录状态
+Controller -> Controller: 执行额外的信息检查
+Controller -> Controller: 记住操作日志
+Controller -> Service: 调用creatConfess方法
+activate Service
+
+Service -> Service: 处理创建内容的逻辑
+Service -> Service: 转化内容信息为JSON字符串
+Service -> Service: 获取当前登录用户的ID
+Service -> Service: 设置内容发布者和时间
+Service -> Service: 如果图片列表不为空，将图片列表转化为字符串
+Service -> Service: 调用ConfessMapper插入数据
+Service --> Controller: 返回创建结果
+
+Controller --> FE: 返回创建结果
+deactivate Service
+deactivate Controller
+@enduml

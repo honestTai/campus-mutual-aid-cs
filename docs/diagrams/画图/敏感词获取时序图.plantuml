@@ -1,0 +1,18 @@
+@startuml
+actor Frontend as FE
+participant "SensitiveController" as Controller
+participant "SensitiveMapper" as Mapper
+
+FE -> Controller: 发起获取敏感词信息列表请求
+activate Controller
+
+Controller -> Controller: 记录后台使用日志
+Controller -> Controller: 记录获取敏感词信息操作日志
+Controller -> Mapper: 构建查询条件
+activate Mapper
+
+Mapper --> Controller: 返回符合条件的敏感词信息列表
+Controller --> FE: 返回敏感词信息分页结果
+deactivate Mapper
+deactivate Controller
+@enduml

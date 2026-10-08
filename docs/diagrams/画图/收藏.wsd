@@ -1,0 +1,20 @@
+@startuml
+actor Frontend as FE
+participant "CollectController" as Controller
+participant "CollectService" as Service
+
+FE -> Controller: 发起收藏请求
+activate Controller
+
+Controller -> Controller: 检查用户登录状态
+Controller -> Controller: 记录收藏日志
+Controller -> Service: 查询用户是否已收藏
+activate Service
+
+Service --> Controller: 返回收藏状态
+Controller -> Service: 调用save方法保存收藏记录
+Service --> Controller: 返回保存结果
+Controller --> FE: 返回收藏结果
+deactivate Service
+deactivate Controller
+@enduml

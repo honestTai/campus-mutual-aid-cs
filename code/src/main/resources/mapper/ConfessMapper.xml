@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.confession.back.api.mapper.ConfessMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.confession.back.api.entity.Confess">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="info" property="info" />
+        <result column="connect" property="connect" />
+        <result column="elseConnect" property="elseConnect" />
+        <result column="images" property="images" />
+        <result column="type" property="type" />
+        <result column="time" property="time" />
+        <result column="userId" property="userId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, title, info, connect, elseConnect, images, type, time, userId
+    </sql>
+
+</mapper>

@@ -1,0 +1,56 @@
+@startuml
+
+actor Frontend as FE
+participant "DeleteController" as Controller
+participant "Service/Repository" as Service
+participant "CommentService" as CommentService
+participant "ConfessService" as ConfessService
+participant "CollectService" as CollectService
+participant "LikeService" as LikeService
+participant "AdminService" as AdminService
+participant "SensitiveMapper" as SensitiveMapper
+
+FE -> Controller: 发起删除请求
+activate Controller
+
+Controller -> Service: 调用删除服务
+activate Service
+
+alt 删除评论
+    Service -> CommentService: 调用removeById
+    activate CommentService
+    CommentService --> Service: 返回删除结果
+    deactivate CommentService
+else 删除发布内容
+    Service -> ConfessService: 调用removeById
+    activate ConfessService
+    ConfessService -> CollectService: 调用remove
+    activate CollectService
+    CollectService --> ConfessService: 返回删除结果
+    deactivate CollectService
+    ConfessService -> CommentService: 调用remove
+    activate CommentService
+    CommentService --> ConfessService: 返回删除结果
+    deactivate CommentService
+    ConfessService -> LikeService: 调用remove
+    activate LikeService
+    LikeService --> ConfessService: 返回删除结果
+    deactivate LikeService
+    ConfessService --> Service: 返回删除结果
+    deactivate ConfessService
+else 删除后台用户
+    Service -> AdminService: 调用removeById
+    activate AdminService
+    AdminService --> Service: 返回删除结果
+    deactivate AdminService
+else 删除敏感词
+    Service -> SensitiveMapper: 调用deleteById
+    activate SensitiveMapper
+    SensitiveMapper --> Service: 返回删除结果
+    deactivate SensitiveMapper
+end
+
+Service --> Controller: 返回删除结果
+deactivate Service
+deactivate Controller
+@enduml
